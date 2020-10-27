@@ -38,9 +38,12 @@ public class MainActivity extends AppCompatActivity {
                         .setLargeIcon(
                                 BitmapFactory.decodeResource(
                                         getResources(),
-                                        R.drawable.ic_launcher_foreground
+                                        R.drawable.icon_jetpack
                                 ))
-                        ;
+                        .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(BitmapFactory.decodeResource(
+                                getResources(),
+                                R.drawable.icon_jetpack
+                        )));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                     NotificationChannel notificationChannel =
                             new NotificationChannel(
