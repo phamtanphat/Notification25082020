@@ -6,6 +6,9 @@ import androidx.core.app.NotificationCompat;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button mBtnNotification;
     String MY_CHANNEL = "MY_CHANNEL";
     NotificationManager mNotificationManager;
+    int REQUEST_CODE_OPEN_ACTIVITY = 123;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,16 @@ public class MainActivity extends AppCompatActivity {
         mBtnNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,MainActivity.class);
+                intent.putExtra("messsage","Hello Main");
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                PendingIntent pendingIntent =
+                        PendingIntent.getActivity(
+                                MainActivity.this,
+                                REQUEST_CODE_OPEN_ACTIVITY,
+                                intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
                 NotificationCompat.Builder notification =
                         new NotificationCompat.Builder(MainActivity.this,MY_CHANNEL)
                         .setContentTitle("Ban cap nhat moi")
@@ -43,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
                         .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(BitmapFactory.decodeResource(
                                 getResources(),
                                 R.drawable.icon_jetpack
-                        )));
+                        )))
+                        .addAction(android.R.drawable.star_on,"Open App",pendingIntent);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                     NotificationChannel notificationChannel =
                             new NotificationChannel(
